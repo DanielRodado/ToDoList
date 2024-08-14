@@ -1,9 +1,9 @@
 package com.mindhub.todolist.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class UserEntity {
@@ -13,6 +13,9 @@ public class UserEntity {
     private Long id;
 
     private String username, email, password;
+
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER)
+    private Set<Task> tasks = new HashSet<>();
 
     public UserEntity() {
     }
@@ -49,5 +52,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void addTask(Task task) {
+        task.setUserEntity(this);
+        this.tasks.add(task);
     }
 }

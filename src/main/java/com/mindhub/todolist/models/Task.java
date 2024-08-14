@@ -1,10 +1,7 @@
 package com.mindhub.todolist.models;
 
 import com.mindhub.todolist.enums.TaskStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Task {
@@ -16,6 +13,9 @@ public class Task {
     private String title, description;
 
     private TaskStatus taskStatus;
+
+    @ManyToOne
+    private UserEntity userEntity;
 
     public Task() {
     }
@@ -52,5 +52,13 @@ public class Task {
 
     public void setTaskStatus(TaskStatus taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }
