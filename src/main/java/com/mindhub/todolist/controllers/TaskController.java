@@ -2,6 +2,7 @@ package com.mindhub.todolist.controllers;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
+import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskApplicationDTO taskApp) {
         return taskService.requestCreateTask(taskApp);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable("taskId") Long taskId, @RequestBody TaskUpdateDTO taskUpdate) {
+        return taskService.requestUpdateTask(taskId, taskUpdate);
     }
 
 }

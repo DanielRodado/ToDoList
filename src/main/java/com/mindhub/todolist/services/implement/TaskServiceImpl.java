@@ -2,6 +2,7 @@ package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
+import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.enums.TaskStatus;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskException;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidTaskStatusException;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.mindhub.todolist.utils.ResponseHelper.buildResponse;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -116,6 +115,29 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseEntity<TaskDTO> buildResponseEntity(TaskDTO taskDTO, HttpStatus httpStatus) {
         return new ResponseEntity<>(taskDTO, httpStatus);
+    }
+
+    // Update Task
+    @Override
+    public ResponseEntity<TaskDTO> requestUpdateTask(Long id, TaskUpdateDTO taskUpdate) {
+        validateTaskUpdate(taskUpdate);
+        Task task = getTaskById(id);
+        updateTask(task, taskUpdate);
+        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.OK);
+    }
+
+    @Override
+    public void validateTaskUpdate(TaskUpdateDTO taskUpdate) {
+        validateTaskTitle(taskUpdate.title());
+        validateTaskDescription(taskUpdate.description());
+        validateTaskStatus(taskUpdate.taskStatus());
+    }
+
+    @Override
+    public void updateTask(Task task, TaskUpdateDTO taskUpdate) {
+        task.setTitle(taskUpdate.title());
+        task.setDescription(taskUpdate.description());
+        task.setTaskStatus(TaskStatus.valueOf(taskUpdate.taskStatus()));
     }
 
     @Override
