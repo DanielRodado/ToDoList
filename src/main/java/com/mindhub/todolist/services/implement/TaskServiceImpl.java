@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import static com.mindhub.todolist.utils.ResponseHelper.createResponse;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -38,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         validateTaskApp(taskApp);
         Task task = createTask(taskApp);
         saveTask(task);
-        return new ResponseEntity<>("Task created", HttpStatus.CREATED);
+        return createResponse("Task created", HttpStatus.CREATED);
     }
 
     @Override
