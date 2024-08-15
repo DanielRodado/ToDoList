@@ -5,6 +5,9 @@ import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.models.Task;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+import java.util.Set;
+
 public interface TaskService {
 
     // Methods
@@ -12,6 +15,10 @@ public interface TaskService {
     Task getTaskById(Long id);
 
     TaskDTO getTaskDTOById(Long id);
+
+    List<Task> getAllTasks();
+
+    Set<TaskDTO> getAllTasksDTO();
 
     ResponseEntity<TaskDTO> requestGetTaskDTOById(Long id);
 

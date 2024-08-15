@@ -15,6 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static com.mindhub.todolist.utils.ResponseHelper.buildResponse;
 
 @Service
@@ -36,6 +40,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO getTaskDTOById(Long id) {
         return new TaskDTO(getTaskById(id));
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    @Override
+    public Set<TaskDTO> getAllTasksDTO() {
+        return getAllTasks().stream().map(TaskDTO::new).collect(Collectors.toSet());
     }
 
     @Override
