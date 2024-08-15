@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static com.mindhub.todolist.utils.ResponseHelper.createResponse;
+import static com.mindhub.todolist.utils.ResponseHelper.buildResponse;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -46,15 +46,16 @@ public class TaskServiceImpl implements TaskService {
     // Create new Task
     @Override
     public ResponseEntity<String> requestCreateTask(TaskApplicationDTO taskApp) {
-        validateTaskApp(taskApp);
-        Task task = createTask(taskApp);
+        validateTaskApplication(taskApp);
+        Task task = buildTaskFromDTO(taskApp);
+        associateTaskWithUser(task, taskApp.user().id());
         saveTask(task);
-        return createResponse("Task created", HttpStatus.CREATED);
+        return buildResponse("Task created", HttpStatus.CREATED);
     }
 
     @Override
-    public void validateTaskApp(TaskApplicationDTO taskApp) {
-        userEntityService.validateUserById(taskApp.userApp().id());
+    public void validateTaskApplication(TaskApplicationDTO taskApp) {
+        userEntityService.validateUserById(taskApp.user().id());
         validateTaskTitle(taskApp.title());
         validateTaskDescription(taskApp.description());
         validateTaskStatus(taskApp.taskStatus());
@@ -84,8 +85,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task createTask(TaskApplicationDTO taskApp) {
+    public Task buildTaskFromDTO(TaskApplicationDTO taskApp) {
         return new Task(taskApp.title(), taskApp.description(), TaskStatus.valueOf(taskApp.taskStatus()));
+    }
+
+    @Override
+    public void associateTaskWithUser(Task task, Long userId) {
+        userEntityService.addTaskToUserEntityById(task, userId);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.exceptions.userExceptions.NotFoundUserEntityException;
+import com.mindhub.todolist.models.Task;
 import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.UserEntityRepository;
 import com.mindhub.todolist.services.UserEntityService;
@@ -14,6 +15,11 @@ public class UserEntityServiceImpl implements UserEntityService {
     private UserEntityRepository userEntityRepository;
 
     @Override
+    public UserEntity findUserEntityById(Long id) {
+        return userEntityRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public boolean existsUserEntityById(Long id) {
         return userEntityRepository.existsById(id);
     }
@@ -23,6 +29,12 @@ public class UserEntityServiceImpl implements UserEntityService {
         if (!existsUserEntityById(id)) {
             throw new NotFoundUserEntityException("User not found.");
         }
+    }
+
+    @Override
+    public void addTaskToUserEntityById(Task task, Long userId) {
+        UserEntity userEntity = findUserEntityById(userId);
+        task.setUserEntity(userEntity);
     }
 
     @Override

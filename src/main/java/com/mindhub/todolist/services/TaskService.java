@@ -18,7 +18,7 @@ public interface TaskService {
     // Create new Task
     ResponseEntity<String> requestCreateTask(TaskApplicationDTO taskApp);
 
-    void validateTaskApp(TaskApplicationDTO taskApp);
+    void validateTaskApplication(TaskApplicationDTO taskApp);
 
     void validateTaskTitle(String title);
 
@@ -26,7 +26,9 @@ public interface TaskService {
 
     void validateTaskStatus(String taskStatus);
 
-    Task createTask(TaskApplicationDTO taskApp);
+    Task buildTaskFromDTO(TaskApplicationDTO taskApp);
+
+    void associateTaskWithUser(Task task, Long userId);
 
     void saveTask(Task task);
 
