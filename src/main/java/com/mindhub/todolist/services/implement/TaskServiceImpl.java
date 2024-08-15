@@ -9,6 +9,7 @@ import com.mindhub.todolist.exceptions.taskExceptions.NotFoundTaskException;
 import com.mindhub.todolist.models.Task;
 import com.mindhub.todolist.repositories.TaskRepository;
 import com.mindhub.todolist.services.TaskService;
+import com.mindhub.todolist.services.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserEntityService userEntityService;
 
     // Methods
 
@@ -50,6 +54,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void validateTaskApp(TaskApplicationDTO taskApp) {
+        userEntityService.validateUserById(taskApp.userApp().id());
         validateTaskTitle(taskApp.title());
         validateTaskDescription(taskApp.description());
         validateTaskStatus(taskApp.taskStatus());

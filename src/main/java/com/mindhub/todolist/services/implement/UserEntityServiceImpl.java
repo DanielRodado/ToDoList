@@ -21,7 +21,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public void validateUserById(Long id) {
         if (!existsUserEntityById(id)) {
-            throw new NotFoundUserEntityException("User not found");
+            throw new NotFoundUserEntityException("User not found.");
         }
     }
 
