@@ -37,4 +37,8 @@ public class TaskController {
         return taskService.requestUpdateTask(taskId, taskUpdate);
     }
 
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable("taskId") Long taskId) {
+        return taskService.requestDeleteTask(taskId);
+    }
 }

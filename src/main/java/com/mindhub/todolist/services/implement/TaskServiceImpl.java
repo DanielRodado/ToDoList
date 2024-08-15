@@ -32,6 +32,11 @@ public class TaskServiceImpl implements TaskService {
     // Methods
 
     @Override
+    public boolean existsTaskById(Long id) {
+        return taskRepository.existsById(id);
+    }
+
+    @Override
     public Task getTaskById(Long id) {
         return taskRepository.findById(id).orElseThrow(() -> new NotFoundTaskException("Task not found."));
     }
@@ -138,6 +143,25 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(taskUpdate.title());
         task.setDescription(taskUpdate.description());
         task.setTaskStatus(TaskStatus.valueOf(taskUpdate.taskStatus()));
+    }
+
+    @Override
+    public ResponseEntity<?> requestDeleteTask(Long id) {
+        validateExistsTaskById(id);
+        deleteTaskById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public void deleteTaskById(Long id) {
+        taskRepository.deleteById(id);
+    }
+
+    @Override
+    public void validateExistsTaskById(Long id) {
+        if (!existsTaskById(id)) {
+            throw new NotFoundTaskException("Not found task.");
+        }
     }
 
     @Override

@@ -12,6 +12,8 @@ import java.util.Set;
 
 public interface TaskService {
 
+    boolean existsTaskById(Long id);
+
     // Methods
 
     Task getTaskById(Long id);
@@ -49,6 +51,13 @@ public interface TaskService {
     void validateTaskUpdate(TaskUpdateDTO taskUpdate);
 
     void updateTask(Task task, TaskUpdateDTO taskUpdate);
+
+    // Delete Task
+    ResponseEntity<?> requestDeleteTask(Long id);
+
+    void deleteTaskById(Long id);
+
+    void validateExistsTaskById(Long id);
 
     void saveTask(Task task);
 
