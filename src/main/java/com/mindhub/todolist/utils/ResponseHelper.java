@@ -9,7 +9,4 @@ public final class ResponseHelper {
         return new ResponseEntity<>(text, httpStatus);
     }
 
-    public static ResponseEntity<?> createResponseOk(Object object) {
-        return ResponseEntity.ok(object);
-    }
 }

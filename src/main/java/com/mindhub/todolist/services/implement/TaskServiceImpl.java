@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    // Methods Repository
+    // Methods
 
     @Override
     public Task getTaskById(Long id) {
@@ -32,6 +32,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO getTaskDTOById(Long id) {
         return new TaskDTO(getTaskById(id));
+    }
+
+    @Override
+    public ResponseEntity<TaskDTO> requestGetTaskDTOById(Long id) {
+        return ResponseEntity.ok(getTaskDTOById(id));
     }
 
     // Create new Task

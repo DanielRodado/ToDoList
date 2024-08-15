@@ -7,10 +7,13 @@ import org.springframework.http.ResponseEntity;
 
 public interface TaskService {
 
-    // Methods Repository
+    // Methods
+
     Task getTaskById(Long id);
 
     TaskDTO getTaskDTOById(Long id);
+
+    ResponseEntity<TaskDTO> requestGetTaskDTOById(Long id);
 
     // Create new Task
     ResponseEntity<String> requestCreateTask(TaskApplicationDTO taskApp);
