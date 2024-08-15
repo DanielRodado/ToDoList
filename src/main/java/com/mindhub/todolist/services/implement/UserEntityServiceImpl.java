@@ -1,6 +1,5 @@
 package com.mindhub.todolist.services.implement;
 
-import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskException;
 import com.mindhub.todolist.exceptions.userExceptions.NotFoundUserEntityException;
 import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.UserEntityRepository;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserEntityImpl implements UserEntityService {
+public class UserEntityServiceImpl implements UserEntityService {
 
     @Autowired
     private UserEntityRepository userEntityRepository;
