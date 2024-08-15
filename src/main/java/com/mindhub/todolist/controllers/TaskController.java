@@ -27,7 +27,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTask(@RequestBody TaskApplicationDTO taskApp) {
+    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskApplicationDTO taskApp) {
         return taskService.requestCreateTask(taskApp);
     }
 

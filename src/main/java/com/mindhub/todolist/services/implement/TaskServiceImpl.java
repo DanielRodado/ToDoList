@@ -43,6 +43,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public TaskDTO transformToTaskDTO(Task task) {
+        return new TaskDTO(task);
+    }
+
+    @Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
@@ -59,12 +64,12 @@ public class TaskServiceImpl implements TaskService {
 
     // Create new Task
     @Override
-    public ResponseEntity<String> requestCreateTask(TaskApplicationDTO taskApp) {
+    public ResponseEntity<TaskDTO> requestCreateTask(TaskApplicationDTO taskApp) {
         validateTaskApplication(taskApp);
         Task task = buildTaskFromDTO(taskApp);
         associateTaskWithUser(task, taskApp.user().id());
         saveTask(task);
-        return buildResponse("Task created", HttpStatus.CREATED);
+        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.CREATED);
     }
 
     @Override
@@ -106,6 +111,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void associateTaskWithUser(Task task, Long userId) {
         userEntityService.addTaskToUserEntityById(task, userId);
+    }
+
+    @Override
+    public ResponseEntity<TaskDTO> buildResponseEntity(TaskDTO taskDTO, HttpStatus httpStatus) {
+        return new ResponseEntity<>(taskDTO, httpStatus);
     }
 
     @Override

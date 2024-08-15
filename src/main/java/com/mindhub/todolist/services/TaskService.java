@@ -3,6 +3,7 @@ package com.mindhub.todolist.services;
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.models.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface TaskService {
 
     TaskDTO getTaskDTOById(Long id);
 
+    TaskDTO transformToTaskDTO(Task task);
+
     List<Task> getAllTasks();
 
     Set<TaskDTO> getAllTasksDTO();
@@ -23,7 +26,7 @@ public interface TaskService {
     ResponseEntity<TaskDTO> requestGetTaskDTOById(Long id);
 
     // Create new Task
-    ResponseEntity<String> requestCreateTask(TaskApplicationDTO taskApp);
+    ResponseEntity<TaskDTO> requestCreateTask(TaskApplicationDTO taskApp);
 
     void validateTaskApplication(TaskApplicationDTO taskApp);
 
@@ -36,6 +39,8 @@ public interface TaskService {
     Task buildTaskFromDTO(TaskApplicationDTO taskApp);
 
     void associateTaskWithUser(Task task, Long userId);
+
+    ResponseEntity<TaskDTO> buildResponseEntity(TaskDTO taskDTO, HttpStatus httpStatus);
 
     void saveTask(Task task);
 
