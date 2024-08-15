@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public final class ResponseHelper {
 
-    public static ResponseEntity<String> createResponse(String text, HttpStatus httpStatus) {
+    public static ResponseEntity<String> buildResponse(String text, HttpStatus httpStatus) {
         return new ResponseEntity<>(text, httpStatus);
     }
 
