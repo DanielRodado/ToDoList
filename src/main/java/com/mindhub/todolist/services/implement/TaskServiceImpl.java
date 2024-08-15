@@ -26,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new NotFoundTaskException("Task not found for the id provided"));
+        return taskRepository.findById(id).orElseThrow(() -> new NotFoundTaskException("Task not found."));
     }
 
     @Override
@@ -58,14 +58,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void validateTaskTitle(String title) {
         if (title.isBlank()) {
-            throw new InvalidFieldInputTaskException("The title cannot be empty");
+            throw new InvalidFieldInputTaskException("The title cannot be empty or have blank spaces.");
         }
     }
 
     @Override
     public void validateTaskDescription(String description) {
         if (description.isBlank()) {
-            throw new InvalidFieldInputTaskException("The description cannot be empty");
+            throw new InvalidFieldInputTaskException("The description cannot be empty or have blank spaces.");
         }
     }
 
