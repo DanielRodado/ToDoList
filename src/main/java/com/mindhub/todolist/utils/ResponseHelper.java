@@ -9,4 +9,9 @@ public final class ResponseHelper {
         return new ResponseEntity<>(text, httpStatus);
     }
 
+    public static ResponseEntity<?> buildResponseEntity(Object object, HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus).body(object);
+    }
+
+
 }
