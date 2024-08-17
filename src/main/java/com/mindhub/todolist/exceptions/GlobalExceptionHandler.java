@@ -3,6 +3,7 @@ package com.mindhub.todolist.exceptions;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskException;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidTaskStatusException;
 import com.mindhub.todolist.exceptions.taskExceptions.NotFoundTaskException;
+import com.mindhub.todolist.exceptions.userExceptions.EmailAlreadyExistsException;
 import com.mindhub.todolist.exceptions.userExceptions.NotFoundUserEntityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundUserEntityException.class)
     public ResponseEntity<String> handleNotFoundUserEntityException(NotFoundUserEntityException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(NotFoundTaskException.class)
