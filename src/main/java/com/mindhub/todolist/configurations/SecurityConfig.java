@@ -41,7 +41,10 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/users").permitAll()
+
+                                .requestMatchers(HttpMethod.GET, "/api/users/auth").hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers("/api/tasks/auth", "/api/tasks/auth/**").hasAnyAuthority("USER", "ADMIN")
 
                                 .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{userEntityId}").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
