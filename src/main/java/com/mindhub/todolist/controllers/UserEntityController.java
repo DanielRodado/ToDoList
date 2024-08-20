@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Management", description = "Operations related to user management.")
 public class UserEntityController {
 
     @Autowired
@@ -62,10 +64,7 @@ public class UserEntityController {
         return userEntityService.findUserEntityDTOById(userEntityId);
     }
 
-    @Operation(
-            summary = "Create a new user.",
-            description = "Creates a new user entity based on the provided data."
-    )
+    @Operation(summary = "Create a new user.", description = "Creates a new user entity based on the provided data.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserEntityDTO.class))
