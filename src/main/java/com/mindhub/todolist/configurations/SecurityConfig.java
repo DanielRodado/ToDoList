@@ -47,10 +47,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/tasks/auth", "/api/tasks/auth/**").hasAnyAuthority("USER", "ADMIN")
 
                                 .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{userEntityId}").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/api/tasks").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/tasks/{taskId}").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/tasks").hasAuthority("ADMIN")
+                                .requestMatchers("/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
                                 .anyRequest().denyAll()
                 )
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
