@@ -167,4 +167,10 @@ public class TaskController {
                                                   Authentication auth) {
         return taskService.requestUpdateTaskAuth(taskUpdate, taskId, auth.getName());
     }
+
+    @DeleteMapping("/auth/{taskId}")
+    public ResponseEntity<?> deleteTaskAuthById(@PathVariable("taskId") Long taskId, Authentication auth) {
+        return taskService.requestDeleteTaskAuth(taskId, auth.getName());
+    }
+
 }

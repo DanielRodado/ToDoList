@@ -224,6 +224,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public ResponseEntity<?> requestDeleteTaskAuth(Long id, String username) {
+        validateExistsTaskById(id);
+        validateTaskBelongsToUser(id, username);
+        deleteTaskById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
     public void saveTask(Task task) {
         taskRepository.save(task);
     }

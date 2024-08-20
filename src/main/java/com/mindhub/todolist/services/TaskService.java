@@ -82,6 +82,10 @@ public interface TaskService {
 
     void validateTaskBelongsToUser(Long id, String username);
 
+    // Delete task authenticated
+
+    ResponseEntity<?> requestDeleteTaskAuth(Long id, String username);
+
     void saveTask(Task task);
 
 }
