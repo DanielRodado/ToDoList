@@ -12,6 +12,7 @@ import com.mindhub.todolist.services.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserEntityServiceImpl implements UserEntityService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Method Repository
 
@@ -135,7 +139,7 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp) {
-        return new UserEntity(userApp.username(), userApp.email(), userApp.password());
+        return new UserEntity(userApp.username(), userApp.email(), passwordEncoder.encode(userApp.password()));
     }
 
     @Override
