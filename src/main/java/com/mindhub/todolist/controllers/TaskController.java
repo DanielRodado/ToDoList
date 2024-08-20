@@ -1,6 +1,7 @@
 package com.mindhub.todolist.controllers;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
+import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.services.TaskService;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -133,5 +135,29 @@ public class TaskController {
             @Parameter(description = "The ID of the task to delete.", example = "1", required = true)
             @PathVariable("taskId") Long taskId) {
         return taskService.requestDeleteTask(taskId);
+    }
+
+    // authenticated
+
+    @Operation(summary = "Retrieve task by ID", description = "Fetches the task details for the given task ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Task successfully recovered.",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Task not found."
+            )})
+    @GetMapping("/auth")
+    public Set<TaskDTO> getTaskDTOAuth(Authentication auth) {
+        return taskService.getTaskDTOByUserAuth(auth.getName());
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<TaskDTO> createNewTaskAuth(@RequestBody TaskAuthApplicationDTO taskAuthApp,
+                                                     Authentication auth) {
+        return taskService.requestCreateNewTaskAuth(taskAuthApp, auth.getName());
     }
 }

@@ -1,6 +1,7 @@
 package com.mindhub.todolist.services;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
+import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.models.Task;
@@ -21,6 +22,10 @@ public interface TaskService {
     TaskDTO getTaskDTOById(Long id);
 
     TaskDTO transformToTaskDTO(Task task);
+
+    Set<Task> getTaskByUserAuth(String username);
+
+    Set<TaskDTO> getTaskDTOByUserAuth(String username);
 
     List<Task> getAllTasks();
 
@@ -58,6 +63,16 @@ public interface TaskService {
     void deleteTaskById(Long id);
 
     void validateExistsTaskById(Long id);
+
+    // Create task authenticated
+
+    ResponseEntity<TaskDTO> requestCreateNewTaskAuth(TaskAuthApplicationDTO taskAuthApp, String username);
+
+    void validateTaskAuthApplication(TaskAuthApplicationDTO taskAuthApp);
+
+    Task buildTaskAuthFromDTO(TaskAuthApplicationDTO taskAuthApp);
+
+    void associateTaskWithUserByUsername(Task task, String username);
 
     void saveTask(Task task);
 

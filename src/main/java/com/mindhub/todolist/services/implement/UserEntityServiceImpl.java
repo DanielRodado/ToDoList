@@ -52,6 +52,12 @@ public class UserEntityServiceImpl implements UserEntityService {
         return userEntityRepository.existsByEmail(email);
     }
 
+    @Override
+    public void addTaskToUserEntityByUsername(Task task, String username) {
+        UserEntity userEntity = findUserEntityByUsername(username);
+        userEntity.addTask(task);
+    }
+
     // Methods Controller
 
     @Override

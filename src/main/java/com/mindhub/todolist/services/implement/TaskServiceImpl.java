@@ -1,6 +1,7 @@
 package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
+import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.enums.TaskStatus;
@@ -49,6 +50,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO transformToTaskDTO(Task task) {
         return new TaskDTO(task);
+    }
+
+    @Override
+    public Set<Task> getTaskByUserAuth(String username) {
+        return taskRepository.findByUserEntity(userEntityService.findUserEntityByUsername(username));
+    }
+
+    @Override
+    public Set<TaskDTO> getTaskDTOByUserAuth(String username) {
+        return getTaskByUserAuth(username).stream().map(TaskDTO::new).collect(Collectors.toSet());
     }
 
     @Override
@@ -162,6 +173,32 @@ public class TaskServiceImpl implements TaskService {
         if (!existsTaskById(id)) {
             throw new NotFoundTaskException("Not found task.");
         }
+    }
+
+    @Override
+    public ResponseEntity<TaskDTO> requestCreateNewTaskAuth(TaskAuthApplicationDTO taskAuthApp, String username) {
+        validateTaskAuthApplication(taskAuthApp);
+        Task task = buildTaskAuthFromDTO(taskAuthApp);
+        associateTaskWithUserByUsername(task, username);
+        saveTask(task);
+        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.CREATED);
+    }
+
+    @Override
+    public void validateTaskAuthApplication(TaskAuthApplicationDTO taskAuthApp) {
+        validateTaskTitle(taskAuthApp.title());
+        validateTaskDescription(taskAuthApp.description());
+        validateTaskStatus(taskAuthApp.taskStatus());
+    }
+
+    @Override
+    public Task buildTaskAuthFromDTO(TaskAuthApplicationDTO taskAuthApp) {
+        return new Task(taskAuthApp.title(), taskAuthApp.description(), TaskStatus.valueOf(taskAuthApp.taskStatus()));
+    }
+
+    @Override
+    public void associateTaskWithUserByUsername(Task task, String username) {
+        userEntityService.addTaskToUserEntityByUsername(task, username);
     }
 
     @Override

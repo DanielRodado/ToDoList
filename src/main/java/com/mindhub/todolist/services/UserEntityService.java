@@ -24,6 +24,10 @@ public interface UserEntityService {
 
     boolean existsUserEntityByEmail(String email);
 
+    // Others Methods
+
+    void addTaskToUserEntityByUsername(Task task, String username);
+
     // Methods Controller
 
     Set<UserEntityDTO> getAllUserEntityDTO();
