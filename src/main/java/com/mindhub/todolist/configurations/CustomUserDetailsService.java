@@ -3,6 +3,7 @@ package com.mindhub.todolist.configurations;
 import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return new User(userEntity.getEmail(), userEntity.getPassword(), new ArrayList<>());
+        return new User(userEntity.getUsername(), userEntity.getPassword(),
+                userEntity.isAdmin()
+                        ? AuthorityUtils.createAuthorityList( "USER", "ADMIN")
+                        : AuthorityUtils.createAuthorityList( "USER"));
     }
 }

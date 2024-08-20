@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
 
         // Allow access to public endpoints without authentication
-        if (requestURI.startsWith("/public/")) {
+        if (requestURI.startsWith("/api/auth")) {
             chain.doFilter(request, response);
             return;
         }
