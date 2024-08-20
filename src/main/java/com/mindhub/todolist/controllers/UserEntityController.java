@@ -8,6 +8,7 @@ import com.mindhub.todolist.repositories.UserEntityRepository;
 import com.mindhub.todolist.services.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -34,6 +35,13 @@ public class UserEntityController {
     @PostMapping
     public ResponseEntity<UserEntityDTO> createNewUser(@RequestBody UserEntityApplicationDTO userApp) {
         return userEntityService.requestCreateUserEntity(userApp);
+    }
+
+    // Auth User
+
+    @GetMapping("/auth")
+    public UserEntityDTO getUserAuth(Authentication auth) {
+        return userEntityService.findUserEntityDTOByUsername(auth.getName());
     }
 
 }

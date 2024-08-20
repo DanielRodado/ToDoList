@@ -18,6 +18,8 @@ public interface UserEntityService {
 
     UserEntity findUserEntityById(Long id);
 
+    UserEntity findUserEntityByUsername(String username);
+
     boolean existsUserEntityById(Long id);
 
     boolean existsUserEntityByEmail(String email);
@@ -27,6 +29,8 @@ public interface UserEntityService {
     Set<UserEntityDTO> getAllUserEntityDTO();
 
     UserEntityDTO findUserEntityDTOById(Long id);
+
+    UserEntityDTO findUserEntityDTOByUsername(String username);
 
     void validateUserById(Long id);
 

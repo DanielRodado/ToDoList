@@ -37,6 +37,12 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
+    public UserEntity findUserEntityByUsername(String username) {
+        return userEntityRepository.findByUsername(username).orElseThrow(() -> new NotFoundUserEntityException("User " +
+                "not found."));
+    }
+
+    @Override
     public boolean existsUserEntityById(Long id) {
         return userEntityRepository.existsById(id);
     }
@@ -56,6 +62,11 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public UserEntityDTO findUserEntityDTOById(Long id) {
         return new UserEntityDTO(findUserEntityById(id));
+    }
+
+    @Override
+    public UserEntityDTO findUserEntityDTOByUsername(String username) {
+        return new UserEntityDTO(findUserEntityByUsername(username));
     }
 
     @Override

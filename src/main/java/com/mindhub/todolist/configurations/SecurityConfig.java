@@ -42,7 +42,13 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                                .anyRequest().authenticated()
+
+                                .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{userEntityId}").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/tasks").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/tasks/{taskId}").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/tasks").hasAuthority("ADMIN")
+                                .anyRequest().denyAll()
                 )
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
