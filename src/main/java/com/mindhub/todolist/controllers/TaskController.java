@@ -64,19 +64,23 @@ public class TaskController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "User not found."
+                    description = "User not found.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Title task invalid."
+                    description = "Title task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Description task invalid."
+                    description = "Description task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Status task task invalid."
+                    description = "Status task task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             )})
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(
@@ -96,19 +100,23 @@ public class TaskController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Task not found."
+                    description = "Task not found.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Title task invalid."
+                    description = "Title task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Description task invalid."
+                    description = "Description task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Status task task invalid."
+                    description = "Status task task invalid.",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
             )})
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskDTO> updateTask(
@@ -124,11 +132,13 @@ public class TaskController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Task deleted successfully."
+                    description = "Task deleted successfully.",
+                    content = @Content(mediaType = "text/plain")
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Task not found."
+                    description = "Task not found.",
+                    content = @Content(mediaType = "text/plain")
             )})
     @DeleteMapping("/{taskId}")
     public ResponseEntity<?> deleteTask(
@@ -139,17 +149,6 @@ public class TaskController {
 
     // authenticated
 
-    @Operation(summary = "Retrieve task by ID", description = "Fetches the task details for the given task ID.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Task successfully recovered.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Task not found."
-            )})
     @GetMapping("/auth")
     public Set<TaskDTO> getTaskDTOAuth(Authentication auth) {
         return taskService.getTaskDTOByUserAuth(auth.getName());
