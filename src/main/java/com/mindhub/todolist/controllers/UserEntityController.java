@@ -50,13 +50,12 @@ public class UserEntityController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Successfully retrieved the user",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserEntityDTO.class))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserEntityDTO.class))
             ),
             @ApiResponse(
                     responseCode = "404",
                     description = "User not found",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @GetMapping("/{userEntityId}")
@@ -72,7 +71,7 @@ public class UserEntityController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Invalid input data.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @PostMapping
@@ -93,7 +92,7 @@ public class UserEntityController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Access denied.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @GetMapping("/auth")

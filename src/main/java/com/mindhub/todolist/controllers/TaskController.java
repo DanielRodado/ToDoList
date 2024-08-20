@@ -38,7 +38,7 @@ public class TaskController {
         return taskService.getAllTasksDTO();
     }
 
-    @Operation(summary = "Retrieve task by ID", description = "Fetches the task details for the given task ID.")
+    @Operation(summary = "Retrieve task by ID.", description = "Fetches the task details for the given task ID.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -56,7 +56,8 @@ public class TaskController {
         return taskService.requestGetTaskDTOById(taskId);
     }
 
-    @Operation(summary = "Create a new task", description = "Creates a new task based on the provided TaskApplicationDTO object.")
+    @Operation(summary = "Create a new task.",
+                description = "Creates a new task based on the provided TaskApplicationDTO object.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
@@ -66,22 +67,22 @@ public class TaskController {
             @ApiResponse(
                     responseCode = "404",
                     description = "User not found.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Title task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Description task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Status task task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )})
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(
@@ -102,22 +103,22 @@ public class TaskController {
             @ApiResponse(
                     responseCode = "404",
                     description = "Task not found.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Title task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Description task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "403",
                     description = "Status task task invalid.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )})
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskDTO> updateTask(
@@ -129,7 +130,7 @@ public class TaskController {
         return taskService.requestUpdateTask(taskId, taskUpdate);
     }
 
-    @Operation(summary = "Delete a task", description = "Deletes the task identified by the given task ID.")
+    @Operation(summary = "Delete a task.", description = "Deletes the task identified by the given task ID.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
@@ -150,7 +151,7 @@ public class TaskController {
 
     // authenticated
 
-    @Operation(summary = "Get tasks for authenticated user",
+    @Operation(summary = "Get tasks for authenticated user.",
                 description = "Retrieves the tasks associated with the currently authenticated user.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -160,7 +161,7 @@ public class TaskController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Access denied.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @GetMapping("/auth")
@@ -177,7 +178,7 @@ public class TaskController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Access denied or invalid input data.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @PostMapping("/auth")
@@ -199,12 +200,12 @@ public class TaskController {
             @ApiResponse(
                     responseCode = "403",
                     description = "Access denied or invalid input data.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
             @ApiResponse(
                     responseCode = "404",
                     description = "Task not found.",
-                    content = @Content(mediaType = "text/plain", schema = @Schema(hidden = true))
+                    content = @Content(schema = @Schema(hidden = true))
             ),
     })
     @PutMapping("/auth/{taskId}")

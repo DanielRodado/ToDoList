@@ -32,7 +32,7 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     @Operation(
-            summary = "Authenticate user and generate JWT",
+            summary = "Authenticate user and generate JWT.",
             description = "Authenticates the user with the provided credentials and generates a JWT token."
     )
     @ApiResponses(value = {
@@ -41,7 +41,8 @@ public class AuthController {
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Invalid credentials."
+                    description = "Invalid credentials.",
+                    content = @Content(schema = @Schema(hidden = true))
             )
     })
     @PostMapping("/login")
