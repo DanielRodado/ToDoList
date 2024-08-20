@@ -27,6 +27,10 @@ public class Util {
             Task task = new Task("Organizar el armario","Clasificar y doblar la ropa.", TaskStatus.PENDING);
             userEntity.addTask(task);
             taskRepository.save(task);
+
+            UserEntity userEntityTwo = new UserEntity("daniel14", "daniel@gmail.com", passwordEncoder.encode("123")
+                    , true);
+            userEntityRepository.save(userEntityTwo);
             
         };
     }

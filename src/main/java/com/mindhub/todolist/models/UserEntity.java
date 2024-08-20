@@ -14,6 +14,8 @@ public class UserEntity {
 
     private String username, email, password;
 
+    private boolean isAdmin = false;
+
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER)
     private Set<Task> tasks = new HashSet<>();
 
@@ -24,6 +26,13 @@ public class UserEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public UserEntity(String username, String email, String password, boolean isAdmin) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     public Long getId() {
@@ -52,6 +61,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public Set<Task> getTasks() {
