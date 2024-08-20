@@ -23,8 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity userEntity = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return new User(userEntity.getUsername(), userEntity.getPassword(),
-                userEntity.isAdmin()
-                        ? AuthorityUtils.createAuthorityList( "USER", "ADMIN")
-                        : AuthorityUtils.createAuthorityList( "USER"));
+                AuthorityUtils.createAuthorityList(userEntity.isAdmin() ? "ADMIN" : "USER"));
     }
 }
