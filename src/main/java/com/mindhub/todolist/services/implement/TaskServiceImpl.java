@@ -8,7 +8,9 @@ import com.mindhub.todolist.enums.TaskStatus;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskException;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidTaskStatusException;
 import com.mindhub.todolist.exceptions.taskExceptions.NotFoundTaskException;
+import com.mindhub.todolist.exceptions.taskExceptions.TaskNotBelongToUserException;
 import com.mindhub.todolist.models.Task;
+import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.TaskRepository;
 import com.mindhub.todolist.services.TaskService;
 import com.mindhub.todolist.services.UserEntityService;
@@ -35,6 +37,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean existsTaskById(Long id) {
         return taskRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsTaskByIdAndUserEntity(Long id, String username) {
+        UserEntity userEntity = userEntityService.findUserEntityByUsername(username);
+        return taskRepository.existsByIdAndUserEntity(id, userEntity);
     }
 
     @Override
@@ -139,6 +147,7 @@ public class TaskServiceImpl implements TaskService {
         validateTaskUpdate(taskUpdate);
         Task task = getTaskById(id);
         updateTask(task, taskUpdate);
+        saveTask(task);
         return buildResponseEntity(transformToTaskDTO(task), HttpStatus.OK);
     }
 
@@ -199,6 +208,19 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void associateTaskWithUserByUsername(Task task, String username) {
         userEntityService.addTaskToUserEntityByUsername(task, username);
+    }
+
+    @Override
+    public ResponseEntity<TaskDTO> requestUpdateTaskAuth(TaskUpdateDTO taskUpdate, Long id, String username) {
+        validateTaskBelongsToUser(id, username);
+        return requestUpdateTask(id, taskUpdate);
+    }
+
+    @Override
+    public void validateTaskBelongsToUser(Long id, String username) {
+        if (!existsTaskByIdAndUserEntity(id, username)) {
+            throw new TaskNotBelongToUserException("The task indicated does not belong to you.");
+        }
     }
 
     @Override

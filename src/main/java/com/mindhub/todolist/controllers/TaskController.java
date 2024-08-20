@@ -160,4 +160,11 @@ public class TaskController {
                                                      Authentication auth) {
         return taskService.requestCreateNewTaskAuth(taskAuthApp, auth.getName());
     }
+
+    @PutMapping("/auth/{taskId}")
+    public ResponseEntity<TaskDTO> updateTaskAuthById(@RequestBody TaskUpdateDTO taskUpdate,
+                                                   @PathVariable("taskId") Long taskId,
+                                                  Authentication auth) {
+        return taskService.requestUpdateTaskAuth(taskUpdate, taskId, auth.getName());
+    }
 }

@@ -10,4 +10,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Set<Task> findByUserEntity(UserEntity userEntity);
 
+    boolean existsByIdAndUserEntity(Long id, UserEntity userEntity);
+
 }

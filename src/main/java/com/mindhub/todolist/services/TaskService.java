@@ -15,6 +15,8 @@ public interface TaskService {
 
     boolean existsTaskById(Long id);
 
+    boolean existsTaskByIdAndUserEntity(Long id, String username);
+
     // Methods
 
     Task getTaskById(Long id);
@@ -73,6 +75,12 @@ public interface TaskService {
     Task buildTaskAuthFromDTO(TaskAuthApplicationDTO taskAuthApp);
 
     void associateTaskWithUserByUsername(Task task, String username);
+
+    // Update task authenticated
+
+    ResponseEntity<TaskDTO> requestUpdateTaskAuth(TaskUpdateDTO taskUpdate, Long id, String username);
+
+    void validateTaskBelongsToUser(Long id, String username);
 
     void saveTask(Task task);
 
