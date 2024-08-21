@@ -41,13 +41,13 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/users").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
 
-                                .requestMatchers(HttpMethod.GET, "/api/users/auth").hasAnyAuthority("USER", "ADMIN")
-                                .requestMatchers("/api/tasks/auth", "/api/tasks/auth/**").hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/users/current").hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers("/api/tasks/users/current", "/api/tasks/users/current/**").hasAnyAuthority("USER", "ADMIN")
 
                                 .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{userEntityId}").hasAuthority("ADMIN")
-                                .requestMatchers("/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
+                                .requestMatchers("/api/tasks", "/api/tasks/**").hasAuthority("ADMIN")
                                 .anyRequest().denyAll()
                 )
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())

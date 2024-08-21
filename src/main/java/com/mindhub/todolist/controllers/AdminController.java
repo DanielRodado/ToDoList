@@ -39,7 +39,7 @@ public class AdminController {
     @ApiResponse(responseCode = "200",
             description = "Successfully retrieved the list of users.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserEntityDTO.class)))
-    @GetMapping
+    @GetMapping("/users")
     public Set<UserEntityDTO> getAllUsersDTO() {
         return userEntityService.getAllUserEntityDTO();
     }
@@ -72,7 +72,7 @@ public class AdminController {
             responseCode = "200",
             description = "Tasks retrieved successfully.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class)))
-    @GetMapping
+    @GetMapping("/tasks")
     public Set<TaskDTO> getAllTasksDTO() {
         return taskService.getAllTasksDTO();
     }
