@@ -27,128 +27,6 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-
-    @Operation(summary = "Get all tasks.", description = "Fetches a set of all tasks represented as TaskDTO objects.")
-    @ApiResponse(
-            responseCode = "200",
-            description = "Tasks retrieved successfully.",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class)))
-    @GetMapping
-    public Set<TaskDTO> getAllTasksDTO() {
-        return taskService.getAllTasksDTO();
-    }
-
-    @Operation(summary = "Retrieve task by ID.", description = "Fetches the task details for the given task ID.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Task successfully recovered.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Task not found."
-            )})
-    @GetMapping("/{taskId}")
-    public ResponseEntity<TaskDTO> getTaskDTOById(
-            @Parameter(description = "ID of the task to be recovered.", example = "1", required = true)
-            @PathVariable("taskId") Long taskId) {
-        return taskService.requestGetTaskDTOById(taskId);
-    }
-
-    @Operation(summary = "Create a new task.",
-                description = "Creates a new task based on the provided TaskApplicationDTO object.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Task created successfully.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Title task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Description task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Status task task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            )})
-    @PostMapping
-    public ResponseEntity<TaskDTO> createTask(
-            @Parameter(description = "The task data to create a new task.", required = true)
-            @RequestBody TaskApplicationDTO taskApp) {
-        return taskService.requestCreateTask(taskApp);
-    }
-
-    @Operation(
-            summary = "Update an existing task.",
-            description = "Updates the task identified by the given task ID with the provided TaskUpdateDTO data.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Task updated successfully.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Task not found.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Title task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Description task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Status task task invalid.",
-                    content = @Content(schema = @Schema(hidden = true))
-            )})
-    @PutMapping("/{taskId}")
-    public ResponseEntity<TaskDTO> updateTask(
-            @Parameter(description = "The ID of the task to update.", example = "1", required = true)
-            @PathVariable("taskId") Long taskId,
-
-            @Parameter(description = "The task data to update the existing task.", required = true)
-            @RequestBody TaskUpdateDTO taskUpdate) {
-        return taskService.requestUpdateTask(taskId, taskUpdate);
-    }
-
-    @Operation(summary = "Delete a task.", description = "Deletes the task identified by the given task ID.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Task deleted successfully.",
-                    content = @Content(mediaType = "text/plain")
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Task not found.",
-                    content = @Content(mediaType = "text/plain")
-            )})
-    @DeleteMapping("/{taskId}")
-    public ResponseEntity<?> deleteTask(
-            @Parameter(description = "The ID of the task to delete.", example = "1", required = true)
-            @PathVariable("taskId") Long taskId) {
-        return taskService.requestDeleteTask(taskId);
-    }
-
     // authenticated
 
     @Operation(summary = "Get tasks for authenticated user.",
@@ -164,8 +42,8 @@ public class TaskController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
-    @GetMapping("/auth")
-    public Set<TaskDTO> getTaskDTOAuth(@Parameter(hidden = true) Authentication auth) {
+    @GetMapping("/users/current")
+    public Set<TaskDTO> getTaskDTOCurrentUser(@Parameter(hidden = true) Authentication auth) {
         return taskService.getTaskDTOByUserAuth(auth.getName());
     }
 
@@ -181,7 +59,7 @@ public class TaskController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
-    @PostMapping("/auth")
+    @PostMapping("/users/current")
     public ResponseEntity<TaskDTO> createNewTaskAuth(
             @Parameter(description = "Task data to create a new task for the authenticated user.", required = true)
             @RequestBody TaskAuthApplicationDTO taskAuthApp,
@@ -208,7 +86,7 @@ public class TaskController {
                     content = @Content(schema = @Schema(hidden = true))
             ),
     })
-    @PutMapping("/auth/{taskId}")
+    @PutMapping("/users/current/{taskId}")
     public ResponseEntity<TaskDTO> updateTaskAuthById(
             @Parameter(description = "Task data to update the task.", required = true)
             @RequestBody TaskUpdateDTO taskUpdate,
@@ -237,7 +115,7 @@ public class TaskController {
                     description = "Task not found."
             )
     })
-    @DeleteMapping("/auth/{taskId}")
+    @DeleteMapping("/users/current/{taskId}")
     public ResponseEntity<?> deleteTaskAuthById(
             @Parameter(description = "ID of the task to delete.")
             @PathVariable("taskId") Long taskId,

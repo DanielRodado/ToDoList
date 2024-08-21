@@ -2,6 +2,9 @@ package com.mindhub.todolist.controllers;
 
 import com.mindhub.todolist.configurations.JwtUtils;
 import com.mindhub.todolist.dto.LoginUser;
+import com.mindhub.todolist.dto.UserEntityApplicationDTO;
+import com.mindhub.todolist.dto.UserEntityDTO;
+import com.mindhub.todolist.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +34,9 @@ public class AuthController {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private UserEntityService userEntityService;
+
     @Operation(
             summary = "Authenticate user and generate JWT.",
             description = "Authenticates the user with the provided credentials and generates a JWT token."
@@ -59,5 +65,23 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateToken(authentication.getName());
         return ResponseEntity.ok(jwt);
+    }
+
+    @Operation(summary = "Create a new user.", description = "Creates a new user entity based on the provided data.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User created successfully.",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserEntityDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Invalid input data.",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PostMapping("/register")
+    public ResponseEntity<UserEntityDTO> createNewUser(
+            @Parameter(description = "The user data to create a new user.", required = true)
+            @RequestBody UserEntityApplicationDTO userApp) {
+        return userEntityService.requestCreateUserEntity(userApp);
     }
 }
