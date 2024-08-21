@@ -174,7 +174,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public void validateUserIsAdmin(Long id) {
         if (existsUserEntityAdminById(id)) {
-            throw new AdminUserLookupException("This user is already admin.");
+            throw new AdminUserLookupException("User with ID " + id + " is now an admin.");
         }
     }
 
