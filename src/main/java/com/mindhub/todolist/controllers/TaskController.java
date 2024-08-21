@@ -1,6 +1,5 @@
 package com.mindhub.todolist.controllers;
 
-import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
@@ -44,7 +43,7 @@ public class TaskController {
     })
     @GetMapping("/users/current")
     public Set<TaskDTO> getTaskDTOCurrentUser(@Parameter(hidden = true) Authentication auth) {
-        return taskService.getTaskDTOByUserAuth(auth.getName());
+        return taskService.getTaskDTOByCurrentUser(auth.getName());
     }
 
     @Operation(summary = "Create a new task for authenticated user.",
@@ -66,7 +65,7 @@ public class TaskController {
 
             @Parameter(hidden = true)
             Authentication auth) {
-        return taskService.requestCreateNewTaskAuth(taskAuthApp, auth.getName());
+        return taskService.requestCreateNewTaskCurrentUser(taskAuthApp, auth.getName());
     }
 
     @Operation(summary = "Update a task by ID for authenticated user.",
@@ -96,7 +95,7 @@ public class TaskController {
 
             @Parameter(hidden = true)
             Authentication auth) {
-        return taskService.requestUpdateTaskAuth(taskUpdate, taskId, auth.getName());
+        return taskService.requestUpdateTaskCurrentUser(taskUpdate, taskId, auth.getName());
     }
 
     @Operation(summary = "Delete a task by ID for authenticated user.",
@@ -122,7 +121,7 @@ public class TaskController {
 
             @Parameter(hidden = true)
             Authentication auth) {
-        return taskService.requestDeleteTaskAuth(taskId, auth.getName());
+        return taskService.requestDeleteTaskCurrentUser(taskId, auth.getName());
     }
 
 }

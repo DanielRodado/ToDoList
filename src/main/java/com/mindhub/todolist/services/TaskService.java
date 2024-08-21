@@ -25,9 +25,9 @@ public interface TaskService {
 
     TaskDTO transformToTaskDTO(Task task);
 
-    Set<Task> getTaskByUserAuth(String username);
+    Set<Task> getTaskByCurrentUser(String username);
 
-    Set<TaskDTO> getTaskDTOByUserAuth(String username);
+    Set<TaskDTO> getTaskDTOByCurrentUser(String username);
 
     List<Task> getAllTasks();
 
@@ -66,9 +66,9 @@ public interface TaskService {
 
     void validateExistsTaskById(Long id);
 
-    // Create task authenticated
+    // Create task current user
 
-    ResponseEntity<TaskDTO> requestCreateNewTaskAuth(TaskAuthApplicationDTO taskAuthApp, String username);
+    ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskAuthApplicationDTO taskAuthApp, String username);
 
     void validateTaskAuthApplication(TaskAuthApplicationDTO taskAuthApp);
 
@@ -76,15 +76,15 @@ public interface TaskService {
 
     void associateTaskWithUserByUsername(Task task, String username);
 
-    // Update task authenticated
+    // Update task current user
 
-    ResponseEntity<TaskDTO> requestUpdateTaskAuth(TaskUpdateDTO taskUpdate, Long id, String username);
+    ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskUpdateDTO taskUpdate, Long id, String username);
 
     void validateTaskBelongsToUser(Long id, String username);
 
-    // Delete task authenticated
+    // Delete task current user
 
-    ResponseEntity<?> requestDeleteTaskAuth(Long id, String username);
+    ResponseEntity<?> requestDeleteTaskCurrentUser(Long id, String username);
 
     void saveTask(Task task);
 

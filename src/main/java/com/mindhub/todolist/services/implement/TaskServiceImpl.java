@@ -61,13 +61,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Set<Task> getTaskByUserAuth(String username) {
+    public Set<Task> getTaskByCurrentUser(String username) {
         return taskRepository.findByUserEntity(userEntityService.findUserEntityByUsername(username));
     }
 
     @Override
-    public Set<TaskDTO> getTaskDTOByUserAuth(String username) {
-        return getTaskByUserAuth(username).stream().map(TaskDTO::new).collect(Collectors.toSet());
+    public Set<TaskDTO> getTaskDTOByCurrentUser(String username) {
+        return getTaskByCurrentUser(username).stream().map(TaskDTO::new).collect(Collectors.toSet());
     }
 
     @Override
@@ -185,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> requestCreateNewTaskAuth(TaskAuthApplicationDTO taskAuthApp, String username) {
+    public ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskAuthApplicationDTO taskAuthApp, String username) {
         validateTaskAuthApplication(taskAuthApp);
         Task task = buildTaskAuthFromDTO(taskAuthApp);
         associateTaskWithUserByUsername(task, username);
@@ -211,7 +211,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> requestUpdateTaskAuth(TaskUpdateDTO taskUpdate, Long id, String username) {
+    public ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskUpdateDTO taskUpdate, Long id, String username) {
         validateTaskBelongsToUser(id, username);
         return requestUpdateTask(id, taskUpdate);
     }
@@ -224,7 +224,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<?> requestDeleteTaskAuth(Long id, String username) {
+    public ResponseEntity<?> requestDeleteTaskCurrentUser(Long id, String username) {
         validateExistsTaskById(id);
         validateTaskBelongsToUser(id, username);
         deleteTaskById(id);
