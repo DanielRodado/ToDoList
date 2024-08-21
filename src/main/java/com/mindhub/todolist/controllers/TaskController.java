@@ -59,7 +59,7 @@ public class TaskController {
             )
     })
     @PostMapping("/users/current")
-    public ResponseEntity<TaskDTO> createNewTaskAuth(
+    public ResponseEntity<TaskDTO> createNewTaskCurrentUser(
             @Parameter(description = "Task data to create a new task for the authenticated user.", required = true)
             @RequestBody TaskAuthApplicationDTO taskAuthApp,
 
@@ -86,7 +86,7 @@ public class TaskController {
             ),
     })
     @PutMapping("/users/current/{taskId}")
-    public ResponseEntity<TaskDTO> updateTaskAuthById(
+    public ResponseEntity<TaskDTO> updateTaskCurrentUserById(
             @Parameter(description = "Task data to update the task.", required = true)
             @RequestBody TaskUpdateDTO taskUpdate,
 
@@ -115,7 +115,7 @@ public class TaskController {
             )
     })
     @DeleteMapping("/users/current/{taskId}")
-    public ResponseEntity<?> deleteTaskAuthById(
+    public ResponseEntity<?> deleteTaskCurrentUserById(
             @Parameter(description = "ID of the task to delete.")
             @PathVariable("taskId") Long taskId,
 
