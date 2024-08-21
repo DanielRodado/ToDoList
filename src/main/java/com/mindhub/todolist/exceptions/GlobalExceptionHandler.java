@@ -4,6 +4,7 @@ import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskExcep
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidTaskStatusException;
 import com.mindhub.todolist.exceptions.taskExceptions.NotFoundTaskException;
 import com.mindhub.todolist.exceptions.taskExceptions.TaskNotBelongToUserException;
+import com.mindhub.todolist.exceptions.userExceptions.AdminUserLookupException;
 import com.mindhub.todolist.exceptions.userExceptions.EmailAlreadyExistsException;
 import com.mindhub.todolist.exceptions.userExceptions.NotFoundUserEntityException;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TaskNotBelongToUserException.class)
     public ResponseEntity<String> handleTaskNotBelongToUserException(TaskNotBelongToUserException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AdminUserLookupException.class)
+    public ResponseEntity<String> handleAdminUserLookupException(AdminUserLookupException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

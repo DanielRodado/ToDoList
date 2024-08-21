@@ -24,6 +24,8 @@ public interface UserEntityService {
 
     boolean existsUserEntityByEmail(String email);
 
+    boolean existsUserEntityAdminById(Long id);
+
     // Others Methods
 
     void addTaskToUserEntityByUsername(Task task, String username);
@@ -58,6 +60,16 @@ public interface UserEntityService {
     UserEntityDTO transformToUserEntityDTO(UserEntity userEntity);
 
     ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus);
+
+    // Transform User to admin
+
+    ResponseEntity<String> requestTransformUserToAdmin(Long id);
+
+    void validateRequestConvertUserToAdmin(Long id);
+
+    void validateUserIsAdmin(Long id);
+
+    void convertUserToAdminById(Long id);
 
     void saveUserEntity(UserEntity userEntity);
 

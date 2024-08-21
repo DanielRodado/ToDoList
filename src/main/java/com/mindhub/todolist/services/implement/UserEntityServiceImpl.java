@@ -2,6 +2,7 @@ package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.dto.UserEntityApplicationDTO;
 import com.mindhub.todolist.dto.UserEntityDTO;
+import com.mindhub.todolist.exceptions.userExceptions.AdminUserLookupException;
 import com.mindhub.todolist.exceptions.userExceptions.EmailAlreadyExistsException;
 import com.mindhub.todolist.exceptions.userExceptions.InvalidFieldInputUserEntityException;
 import com.mindhub.todolist.exceptions.userExceptions.NotFoundUserEntityException;
@@ -54,6 +55,11 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public boolean existsUserEntityByEmail(String email) {
         return userEntityRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsUserEntityAdminById(Long id) {
+        return userEntityRepository.existsByIdAndIsAdminTrue(id);
     }
 
     @Override
@@ -150,6 +156,31 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(userEntityDTO);
+    }
+
+    @Override
+    public ResponseEntity<String> requestTransformUserToAdmin(Long id) {
+        validateRequestConvertUserToAdmin(id);
+        convertUserToAdminById(id);
+        return ResponseEntity.ok("The user has been changed to admin.");
+    }
+
+    @Override
+    public void validateRequestConvertUserToAdmin(Long id) {
+        validateUserById(id);
+        validateUserIsAdmin(id);
+    }
+
+    @Override
+    public void validateUserIsAdmin(Long id) {
+        if (existsUserEntityAdminById(id)) {
+            throw new AdminUserLookupException("This user is already admin.");
+        }
+    }
+
+    @Override
+    public void convertUserToAdminById(Long id) {
+        userEntityRepository.convertUserToAdminById(id);
     }
 
     @Override

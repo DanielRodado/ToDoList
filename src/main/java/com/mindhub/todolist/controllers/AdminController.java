@@ -30,6 +30,13 @@ public class AdminController {
     @Autowired
     private TaskService taskService;
 
+    // Admin
+
+    @PatchMapping("/users/{userEntityId}/make-admin")
+    public ResponseEntity<String> convertUserToAdmin(@PathVariable("userEntityId") Long userEntityId) {
+        return userEntityService.requestTransformUserToAdmin(userEntityId);
+    }
+
     // Users
 
     @Operation(
