@@ -9,6 +9,7 @@ import com.mindhub.todolist.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -32,6 +33,42 @@ public class AdminController {
 
     // Admin
 
+    @Operation(
+            summary = "Convert user to admin",
+            description = "Change the role of a user to admin.",
+            parameters = @Parameter(
+                    name = "userEntityId",
+                    description = "The ID of the user to be converted to admin.",
+                    required = true,
+                    example = "1"
+            )
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User successfully converted to admin",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            examples = @ExampleObject(
+                                            name = "Conversion Success Example",
+                                            summary = "Success message",
+                                            description = "Example of the response message when a user is successfully converted to admin.",
+                                            value = "User with ID 1 is now an admin."
+
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "The user has been changed to admin.",
+                    content = @Content(mediaType = "text/plain")
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found.",
+                    content = @Content(mediaType = "text/plain")
+            )
+    })
     @PatchMapping("/users/{userEntityId}/make-admin")
     public ResponseEntity<String> convertUserToAdmin(@PathVariable("userEntityId") Long userEntityId) {
         return userEntityService.requestTransformUserToAdmin(userEntityId);
