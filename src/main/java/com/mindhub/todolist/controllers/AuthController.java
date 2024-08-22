@@ -4,6 +4,7 @@ import com.mindhub.todolist.configurations.JwtUtils;
 import com.mindhub.todolist.dto.LoginUser;
 import com.mindhub.todolist.dto.UserEntityApplicationDTO;
 import com.mindhub.todolist.dto.UserEntityDTO;
+import com.mindhub.todolist.services.AuthService;
 import com.mindhub.todolist.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,10 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtils jwtUtils;
+    private AuthService authService;
 
     @Autowired
     private UserEntityService userEntityService;
@@ -77,19 +75,8 @@ public class AuthController {
             )
     })
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(
-            @Parameter(description = "User credentials for authentication.", required = true)
-            @RequestBody LoginUser loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.username(),
-                        loginRequest.password()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateToken(authentication.getName());
-        return ResponseEntity.ok(jwt);
+    public ResponseEntity<String> authenticateUser(@RequestBody LoginUser loginRequest) {
+        return authService.authenticateUser(loginRequest);
     }
 
     @Operation(
@@ -132,9 +119,7 @@ public class AuthController {
             )
     })
     @PostMapping("/register")
-    public ResponseEntity<UserEntityDTO> createNewUser(
-            @Parameter(description = "The user data to create a new user.", required = true)
-            @RequestBody UserEntityApplicationDTO userApp) {
+    public ResponseEntity<UserEntityDTO> createNewUser(@RequestBody UserEntityApplicationDTO userApp) {
         return userEntityService.requestCreateUserEntity(userApp);
     }
 }
