@@ -1,13 +1,11 @@
 package com.mindhub.todolist.controllers;
 
-import com.mindhub.todolist.configurations.JwtUtils;
 import com.mindhub.todolist.dto.LoginUser;
 import com.mindhub.todolist.dto.UserEntityApplicationDTO;
 import com.mindhub.todolist.dto.UserEntityDTO;
 import com.mindhub.todolist.services.AuthService;
 import com.mindhub.todolist.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,10 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +26,6 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
-    @Autowired
-    private UserEntityService userEntityService;
 
     @Operation(
             summary = "Authenticate user and generate JWT.",
@@ -120,6 +111,6 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<UserEntityDTO> createNewUser(@RequestBody UserEntityApplicationDTO userApp) {
-        return userEntityService.requestCreateUserEntity(userApp);
+        return authService.requestCreateUserEntity(userApp);
     }
 }

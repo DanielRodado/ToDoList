@@ -2,9 +2,13 @@ package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.configurations.JwtUtils;
 import com.mindhub.todolist.dto.LoginUser;
+import com.mindhub.todolist.dto.UserEntityApplicationDTO;
+import com.mindhub.todolist.dto.UserEntityDTO;
+import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.services.AuthService;
 import com.mindhub.todolist.services.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,4 +57,39 @@ public class AuthServiceImpl implements AuthService {
     public String generateJwtToken(String username) {
         return jwtUtils.generateToken(username);
     }
+
+    @Override
+    public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp) {
+        validateUserEntityApplication(userApp);
+        UserEntity userEntity = buildUserEntityFromDTO(userApp);
+        saveUserEntity(userEntity);
+        return buildResponseEntity(transformToUserEntityDTO(userEntity), HttpStatus.CREATED);
+    }
+
+    @Override
+    public void validateUserEntityApplication(UserEntityApplicationDTO userApp) {
+        userEntityService.validateUserEntityApplication(userApp);
+    }
+
+    @Override
+    public UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp) {
+        return userEntityService.buildUserEntityFromDTO(userApp);
+    }
+
+    @Override
+    public UserEntityDTO transformToUserEntityDTO(UserEntity userEntity) {
+        return userEntityService.transformToUserEntityDTO(userEntity);
+    }
+
+    @Override
+    public ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus) {
+        return userEntityService.buildResponseEntity(userEntityDTO, httpStatus);
+    }
+
+    @Override
+    public void saveUserEntity(UserEntity userEntity) {
+        userEntityService.saveUserEntity(userEntity);
+    }
+
+
 }
