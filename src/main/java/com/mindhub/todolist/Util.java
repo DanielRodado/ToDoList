@@ -21,7 +21,7 @@ public class Util {
     public CommandLineRunner initData(UserEntityRepository userEntityRepository, TaskRepository taskRepository) {
         return args -> {
 
-            UserEntity userEntity = new UserEntity("melba51", "melbamorel@gmail.com", passwordEncoder.encode("12345"));
+            /*UserEntity userEntity = new UserEntity("melba51", "melbamorel@gmail.com", passwordEncoder.encode("12345"));
             userEntityRepository.save(userEntity);
 
             Task task = new Task("Organizar el armario","Clasificar y doblar la ropa.", TaskStatus.PENDING);
@@ -30,7 +30,7 @@ public class Util {
 
             UserEntity userEntityTwo = new UserEntity("daniel14", "daniel@gmail.com", passwordEncoder.encode("123")
                     , true);
-            userEntityRepository.save(userEntityTwo);
+            userEntityRepository.save(userEntityTwo);*/
             
         };
     }
