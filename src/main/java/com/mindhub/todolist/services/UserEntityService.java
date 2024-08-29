@@ -43,7 +43,7 @@ public interface UserEntityService {
     void addTaskToUserEntityById(Task task, Long userId);
 
     // Create New UserEntity
-    ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp);
+    ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp, boolean isAdmin);
 
     void validateUserEntityApplication(UserEntityApplicationDTO userApp);
 
@@ -55,7 +55,7 @@ public interface UserEntityService {
 
     void validateUserEntityPassword(String password);
 
-    UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp);
+    UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp, boolean isAdmin);
 
     ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus);
 

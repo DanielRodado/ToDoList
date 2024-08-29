@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.mindhub.todolist.mappers.UserEntityMapper.*;
 
@@ -102,9 +101,9 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     // Create New UserEntity
     @Override
-    public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp) {
+    public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp, boolean isAdmin) {
         validateUserEntityApplication(userApp);
-        UserEntity userEntity = buildUserEntityFromDTO(userApp);
+        UserEntity userEntity = buildUserEntityFromDTO(userApp, isAdmin);
         saveUserEntity(userEntity);
         return buildResponseEntity(userEntityToUserEntityDTO(userEntity), HttpStatus.CREATED);
     }
@@ -146,8 +145,8 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp) {
-        return new UserEntity(userApp.username(), userApp.email(), passwordEncoder.encode(userApp.password()));
+    public UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp, boolean isAdmin) {
+        return new UserEntity(userApp.username(), userApp.email(), passwordEncoder.encode(userApp.password()), isAdmin);
     }
 
     @Override

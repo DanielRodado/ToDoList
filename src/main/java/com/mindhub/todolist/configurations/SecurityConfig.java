@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/tasks/users/current", "/api/tasks/users/current/**").hasAnyAuthority("USER", "ADMIN")
 
                                 .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{userEntityId}").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/admin", "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH,"/api/users/{userEntityId}/make-admin").hasAuthority("ADMIN")
                                 .requestMatchers("/api/tasks", "/api/tasks/{taskId}").hasAuthority("ADMIN")
                                 .anyRequest().denyAll()

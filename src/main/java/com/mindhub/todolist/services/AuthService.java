@@ -29,7 +29,7 @@ public interface AuthService {
 
     void validateUserEntityApplication(UserEntityApplicationDTO userApp);
 
-    UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp);
+    UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp, boolean isAdmin);
 
     ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus);
 

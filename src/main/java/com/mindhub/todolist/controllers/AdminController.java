@@ -71,6 +71,50 @@ public class AdminController {
         return userEntityService.requestTransformUserToAdmin(userEntityId);
     }
 
+    @Operation(
+            summary = "Create a new admin.",
+            description = "Creates a new admin based on the provided data.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "The data to create a new admin.",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UserEntityApplicationDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Admin Registration Example",
+                                    summary = "Admin registration details",
+                                    description = "Example data for registering a new admin.",
+                                    value = "{ \"username\": \"Jane12\", \"email\": \"jane@example.com\", \"password\": \"securepassword\" }"
+                            )
+                    )
+            )
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Admin created successfully.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UserEntityDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Admin Created Example",
+                                    summary = "Created Admin",
+                                    description = "Example of the response when a new admin is successfully created.",
+                                    value = "{ \"id\": 1, \"username\": \"Jane12\", \"email\": \"jane.doe@example.com\" }"
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Invalid input data.",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PostMapping("/admin/register")
+    public ResponseEntity<UserEntityDTO> createAdmin(@RequestBody UserEntityApplicationDTO userApp) {
+        return userEntityService.requestCreateUserEntity(userApp, true);
+    }
+
     // Users
 
     @Operation(
