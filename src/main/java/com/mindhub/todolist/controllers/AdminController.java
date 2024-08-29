@@ -1,9 +1,6 @@
 package com.mindhub.todolist.controllers;
 
-import com.mindhub.todolist.dto.TaskApplicationDTO;
-import com.mindhub.todolist.dto.TaskDTO;
-import com.mindhub.todolist.dto.TaskUpdateDTO;
-import com.mindhub.todolist.dto.UserEntityDTO;
+import com.mindhub.todolist.dto.*;
 import com.mindhub.todolist.services.TaskService;
 import com.mindhub.todolist.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -209,8 +206,8 @@ public class AdminController {
             @PathVariable("taskId") Long taskId,
 
             @Parameter(description = "The task data to update the existing task.", required = true)
-            @RequestBody TaskUpdateDTO taskUpdate) {
-        return taskService.requestUpdateTask(taskId, taskUpdate);
+            @RequestBody TaskCurrentApplicationDTO taskUpdateApp) {
+        return taskService.requestUpdateTask(taskId, taskUpdateApp);
     }
 
     @Operation(summary = "Delete a task.", description = "Deletes the task identified by the given task ID.")

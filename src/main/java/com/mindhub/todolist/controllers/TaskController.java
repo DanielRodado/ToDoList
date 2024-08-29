@@ -2,7 +2,6 @@ package com.mindhub.todolist.controllers;
 
 import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
-import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.services.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -88,14 +87,14 @@ public class TaskController {
     @PutMapping("/users/current/{taskId}")
     public ResponseEntity<TaskDTO> updateTaskCurrentUserById(
             @Parameter(description = "Task data to update the task.", required = true)
-            @RequestBody TaskUpdateDTO taskUpdate,
+            @RequestBody TaskCurrentApplicationDTO taskCurrentApp,
 
             @Parameter(description = "ID of the task to update.", required = true)
             @PathVariable("taskId") Long taskId,
 
             @Parameter(hidden = true)
             Authentication auth) {
-        return taskService.requestUpdateTaskCurrentUser(taskUpdate, taskId, auth.getName());
+        return taskService.requestUpdateTaskCurrentUser(taskCurrentApp, taskId, auth.getName());
     }
 
     @Operation(summary = "Delete a task by ID for authenticated user.",

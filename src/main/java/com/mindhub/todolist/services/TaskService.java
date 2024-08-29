@@ -3,7 +3,6 @@ package com.mindhub.todolist.services;
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
-import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,11 +52,11 @@ public interface TaskService {
     ResponseEntity<TaskDTO> buildResponseEntity(TaskDTO taskDTO, HttpStatus httpStatus);
 
     // Update Task
-    ResponseEntity<TaskDTO> requestUpdateTask(Long id, TaskUpdateDTO taskUpdate);
+    ResponseEntity<TaskDTO> requestUpdateTask(Long id, TaskCurrentApplicationDTO taskApp);
 
-    void validateTaskUpdate(TaskUpdateDTO taskUpdate);
+    void validateTaskUpdate(TaskCurrentApplicationDTO taskApp);
 
-    void updateTask(Task task, TaskUpdateDTO taskUpdate);
+    void updateTask(Task task, TaskCurrentApplicationDTO taskApp);
 
     // Delete Task
     ResponseEntity<?> requestDeleteTask(Long id);
@@ -70,15 +69,15 @@ public interface TaskService {
 
     ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskCurrentApplicationDTO taskAuthApp, String username);
 
-    void validateTaskAuthApplication(TaskCurrentApplicationDTO taskAuthApp);
+    void validateTaskCurrentApplication(TaskCurrentApplicationDTO taskCurrentApp);
 
-    Task buildTaskAuthFromDTO(TaskCurrentApplicationDTO taskAuthApp);
+    Task buildTaskAuthFromDTO(TaskCurrentApplicationDTO taskCurrentApp);
 
     void associateTaskWithUserByUsername(Task task, String username);
 
     // Update task current user
 
-    ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskUpdateDTO taskUpdate, Long id, String username);
+    ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskCurrentApplicationDTO taskCurrentApp, Long id, String username);
 
     void validateTaskBelongsToUser(Long id, String username);
 

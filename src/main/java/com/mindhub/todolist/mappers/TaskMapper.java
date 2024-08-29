@@ -3,7 +3,6 @@ package com.mindhub.todolist.mappers;
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
-import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.enums.TaskStatus;
 import com.mindhub.todolist.models.Task;
 
@@ -18,7 +17,11 @@ public class TaskMapper {
         return new TaskDTO(task);
     }
 
-    public static Set<TaskDTO> tasksToTasksDTO(List<Task> tasks) {
+    public static Set<TaskDTO> tasksToTaskDTOs(List<Task> tasks) {
+        return tasks.stream().map(TaskMapper::taskToTaskDTO).collect(java.util.stream.Collectors.toSet());
+    }
+
+    public static Set<TaskDTO> tasksToTaskDTOs(Set<Task> tasks) {
         return tasks.stream().map(TaskMapper::taskToTaskDTO).collect(java.util.stream.Collectors.toSet());
     }
 
@@ -30,10 +33,6 @@ public class TaskMapper {
 
     public static Task taskDTOToTask(TaskCurrentApplicationDTO taskApp) {
         return new Task(taskApp.title(), taskApp.description(), TaskStatus.valueOf(taskApp.taskStatus()));
-    }
-
-    public static Task taskDTOToTask(TaskUpdateDTO taskUpdate) {
-        return new Task(taskUpdate.title(), taskUpdate.description(), TaskStatus.valueOf(taskUpdate.taskStatus()));
     }
 
 

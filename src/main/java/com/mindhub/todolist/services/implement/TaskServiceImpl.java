@@ -3,7 +3,6 @@ package com.mindhub.todolist.services.implement;
 import com.mindhub.todolist.dto.TaskApplicationDTO;
 import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
-import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.enums.TaskStatus;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidFieldInputTaskException;
 import com.mindhub.todolist.exceptions.taskExceptions.InvalidTaskStatusException;
@@ -21,7 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import static com.mindhub.todolist.mappers.TaskMapper.*;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -52,12 +52,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDTO getTaskDTOById(Long id) {
-        return new TaskDTO(getTaskById(id));
+        return taskToTaskDTO(getTaskById(id));
     }
 
     @Override
     public TaskDTO transformToTaskDTO(Task task) {
-        return new TaskDTO(task);
+        return taskToTaskDTO(task);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Set<TaskDTO> getTaskDTOByCurrentUser(String username) {
-        return getTaskByCurrentUser(username).stream().map(TaskDTO::new).collect(Collectors.toSet());
+        return tasksToTaskDTOs(getTaskByCurrentUser(username));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Set<TaskDTO> getAllTasksDTO() {
-        return getAllTasks().stream().map(TaskDTO::new).collect(Collectors.toSet());
+        return tasksToTaskDTOs(getAllTasks());
     }
 
     @Override
@@ -89,10 +89,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseEntity<TaskDTO> requestCreateTask(TaskApplicationDTO taskApp) {
         validateTaskApplication(taskApp);
-        Task task = buildTaskFromDTO(taskApp);
+        Task task = taskDTOToTask(taskApp);
         associateTaskWithUser(task, taskApp.user().id());
         saveTask(task);
-        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.CREATED);
+        return buildResponseEntity(taskToTaskDTO(task), HttpStatus.CREATED);
     }
 
     @Override
@@ -143,26 +143,26 @@ public class TaskServiceImpl implements TaskService {
 
     // Update Task
     @Override
-    public ResponseEntity<TaskDTO> requestUpdateTask(Long id, TaskUpdateDTO taskUpdate) {
-        validateTaskUpdate(taskUpdate);
+    public ResponseEntity<TaskDTO> requestUpdateTask(Long id, TaskCurrentApplicationDTO taskApp) {
+        validateTaskUpdate(taskApp);
         Task task = getTaskById(id);
-        updateTask(task, taskUpdate);
+        updateTask(task, taskApp);
         saveTask(task);
-        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.OK);
+        return buildResponseEntity(taskToTaskDTO(task), HttpStatus.OK);
     }
 
     @Override
-    public void validateTaskUpdate(TaskUpdateDTO taskUpdate) {
-        validateTaskTitle(taskUpdate.title());
-        validateTaskDescription(taskUpdate.description());
-        validateTaskStatus(taskUpdate.taskStatus());
+    public void validateTaskUpdate(TaskCurrentApplicationDTO taskApp) {
+        validateTaskTitle(taskApp.title());
+        validateTaskDescription(taskApp.description());
+        validateTaskStatus(taskApp.taskStatus());
     }
 
     @Override
-    public void updateTask(Task task, TaskUpdateDTO taskUpdate) {
-        task.setTitle(taskUpdate.title());
-        task.setDescription(taskUpdate.description());
-        task.setTaskStatus(TaskStatus.valueOf(taskUpdate.taskStatus()));
+    public void updateTask(Task task, TaskCurrentApplicationDTO taskApp) {
+        task.setTitle(taskApp.title());
+        task.setDescription(taskApp.description());
+        task.setTaskStatus(TaskStatus.valueOf(taskApp.taskStatus()));
     }
 
     @Override
@@ -185,19 +185,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskCurrentApplicationDTO taskAuthApp, String username) {
-        validateTaskAuthApplication(taskAuthApp);
-        Task task = buildTaskAuthFromDTO(taskAuthApp);
+    public ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskCurrentApplicationDTO taskCurrentApp, String username) {
+        validateTaskCurrentApplication(taskCurrentApp);
+        Task task = taskDTOToTask(taskCurrentApp);
         associateTaskWithUserByUsername(task, username);
         saveTask(task);
-        return buildResponseEntity(transformToTaskDTO(task), HttpStatus.CREATED);
+        return buildResponseEntity(taskToTaskDTO(task), HttpStatus.CREATED);
     }
 
     @Override
-    public void validateTaskAuthApplication(TaskCurrentApplicationDTO taskAuthApp) {
-        validateTaskTitle(taskAuthApp.title());
-        validateTaskDescription(taskAuthApp.description());
-        validateTaskStatus(taskAuthApp.taskStatus());
+    public void validateTaskCurrentApplication(TaskCurrentApplicationDTO taskCurrentApp) {
+        validateTaskTitle(taskCurrentApp.title());
+        validateTaskDescription(taskCurrentApp.description());
+        validateTaskStatus(taskCurrentApp.taskStatus());
     }
 
     @Override
@@ -211,9 +211,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskUpdateDTO taskUpdate, Long id, String username) {
+    public ResponseEntity<TaskDTO> requestUpdateTaskCurrentUser(TaskCurrentApplicationDTO taskCurrentApp, Long id, String username) {
         validateTaskBelongsToUser(id, username);
-        return requestUpdateTask(id, taskUpdate);
+        return requestUpdateTask(id, taskCurrentApp);
     }
 
     @Override
