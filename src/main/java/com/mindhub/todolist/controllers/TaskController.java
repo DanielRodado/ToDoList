@@ -1,6 +1,6 @@
 package com.mindhub.todolist.controllers;
 
-import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
+import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.services.TaskService;
@@ -61,7 +61,7 @@ public class TaskController {
     @PostMapping("/users/current")
     public ResponseEntity<TaskDTO> createNewTaskCurrentUser(
             @Parameter(description = "Task data to create a new task for the authenticated user.", required = true)
-            @RequestBody TaskAuthApplicationDTO taskAuthApp,
+            @RequestBody TaskCurrentApplicationDTO taskAuthApp,
 
             @Parameter(hidden = true)
             Authentication auth) {

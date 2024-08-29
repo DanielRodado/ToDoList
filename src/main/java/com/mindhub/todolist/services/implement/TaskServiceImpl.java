@@ -1,7 +1,7 @@
 package com.mindhub.todolist.services.implement;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
-import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
+import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.enums.TaskStatus;
@@ -185,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskAuthApplicationDTO taskAuthApp, String username) {
+    public ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskCurrentApplicationDTO taskAuthApp, String username) {
         validateTaskAuthApplication(taskAuthApp);
         Task task = buildTaskAuthFromDTO(taskAuthApp);
         associateTaskWithUserByUsername(task, username);
@@ -194,14 +194,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void validateTaskAuthApplication(TaskAuthApplicationDTO taskAuthApp) {
+    public void validateTaskAuthApplication(TaskCurrentApplicationDTO taskAuthApp) {
         validateTaskTitle(taskAuthApp.title());
         validateTaskDescription(taskAuthApp.description());
         validateTaskStatus(taskAuthApp.taskStatus());
     }
 
     @Override
-    public Task buildTaskAuthFromDTO(TaskAuthApplicationDTO taskAuthApp) {
+    public Task buildTaskAuthFromDTO(TaskCurrentApplicationDTO taskAuthApp) {
         return new Task(taskAuthApp.title(), taskAuthApp.description(), TaskStatus.valueOf(taskAuthApp.taskStatus()));
     }
 

@@ -1,7 +1,7 @@
 package com.mindhub.todolist.services;
 
 import com.mindhub.todolist.dto.TaskApplicationDTO;
-import com.mindhub.todolist.dto.TaskAuthApplicationDTO;
+import com.mindhub.todolist.dto.TaskCurrentApplicationDTO;
 import com.mindhub.todolist.dto.TaskDTO;
 import com.mindhub.todolist.dto.TaskUpdateDTO;
 import com.mindhub.todolist.models.Task;
@@ -68,11 +68,11 @@ public interface TaskService {
 
     // Create task current user
 
-    ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskAuthApplicationDTO taskAuthApp, String username);
+    ResponseEntity<TaskDTO> requestCreateNewTaskCurrentUser(TaskCurrentApplicationDTO taskAuthApp, String username);
 
-    void validateTaskAuthApplication(TaskAuthApplicationDTO taskAuthApp);
+    void validateTaskAuthApplication(TaskCurrentApplicationDTO taskAuthApp);
 
-    Task buildTaskAuthFromDTO(TaskAuthApplicationDTO taskAuthApp);
+    Task buildTaskAuthFromDTO(TaskCurrentApplicationDTO taskAuthApp);
 
     void associateTaskWithUserByUsername(Task task, String username);
 
