@@ -11,8 +11,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,14 +28,27 @@ public class UserEntityServiceTest {
     private UserEntityService userEntityService;
 
     @Test
-    public void testGetUserByUsername() {
-        UserEntity mokUuserEntity = new UserEntity("melba", "melba@gmail.com", "1234567890");
-        when(userEntityRepository.findById(anyLong())).thenReturn(Optional.of(mokUuserEntity));
+    public void findUserEntityById_whenIdIsValid_shouldReturnUserEntity() {
+        UserEntity mokUserEntity = new UserEntity("melba", "melba@gmail.com", "1234567890");
+        when(userEntityRepository.findById(anyLong())).thenReturn(Optional.of(mokUserEntity));
 
         UserEntity result = userEntityService.findUserEntityById(1L);
 
-        verify(userEntityRepository).findById(anyLong()); // Verifica que el repositorio haya sido llamado con cualquier ID
-        assertEquals("melba", result.getUsername()); // Verifica que el username sea correcto
+        verify(userEntityRepository).findById(anyLong());
+        assertEquals("melba", result.getUsername());
+    }
+
+    @Test
+    public void registerUser_thenUserIsFound() {
+        UserEntity newUser = new UserEntity("testUser", "testuser@example.com", "testPassword");
+        when(userEntityRepository.save(any(UserEntity.class))).thenReturn(newUser);
+        when(userEntityRepository.findByUsername(anyString())).thenReturn(Optional.of(newUser));
+        userEntityService.saveUserEntity(newUser);
+
+        UserEntity foundUser = userEntityService.findUserEntityByUsername("testUser");
+
+        assertThat(foundUser).isNotNull();
+        assertThat(foundUser.getEmail()).isEqualTo("testuser@example.com");
     }
 
 }

@@ -43,7 +43,7 @@ public class TaskServiceTest {
     private TaskService taskService;
 
     @Test
-    public void testCreateTask() {
+    public void createTask_whenValidDataProvided_shouldReturnCreatedTask() {
         String title = "New Task";
         String description = "Description of new task";
         TaskStatus status = TaskStatus.PENDING;
