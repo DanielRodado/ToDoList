@@ -104,7 +104,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp) {
         validateUserEntityApplication(userApp);
-        UserEntity userEntity = userEntityDTOToUserEntity(userApp);
+        UserEntity userEntity = buildUserEntityFromDTO(userApp);
         saveUserEntity(userEntity);
         return buildResponseEntity(userEntityToUserEntityDTO(userEntity), HttpStatus.CREATED);
     }

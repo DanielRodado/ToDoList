@@ -62,10 +62,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp) {
-        validateUserEntityApplication(userApp);
-        UserEntity userEntity = buildUserEntityFromDTO(userApp);
-        saveUserEntity(userEntity);
-        return buildResponseEntity(userEntityToUserEntityDTO(userEntity), HttpStatus.CREATED);
+        return userEntityService.requestCreateUserEntity(userApp);
     }
 
     @Override
