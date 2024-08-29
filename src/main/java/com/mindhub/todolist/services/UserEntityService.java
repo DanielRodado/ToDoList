@@ -57,8 +57,6 @@ public interface UserEntityService {
 
     UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp);
 
-    UserEntityDTO transformToUserEntityDTO(UserEntity userEntity);
-
     ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus);
 
     // Transform User to admin

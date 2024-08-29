@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import static com.mindhub.todolist.mappers.UserEntityMapper.userEntityToUserEntityDTO;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -63,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
         validateUserEntityApplication(userApp);
         UserEntity userEntity = buildUserEntityFromDTO(userApp);
         saveUserEntity(userEntity);
-        return buildResponseEntity(transformToUserEntityDTO(userEntity), HttpStatus.CREATED);
+        return buildResponseEntity(userEntityToUserEntityDTO(userEntity), HttpStatus.CREATED);
     }
 
     @Override
@@ -74,11 +76,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp) {
         return userEntityService.buildUserEntityFromDTO(userApp);
-    }
-
-    @Override
-    public UserEntityDTO transformToUserEntityDTO(UserEntity userEntity) {
-        return userEntityService.transformToUserEntityDTO(userEntity);
     }
 
     @Override

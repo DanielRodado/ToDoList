@@ -31,8 +31,6 @@ public interface AuthService {
 
     UserEntity buildUserEntityFromDTO(UserEntityApplicationDTO userApp);
 
-    UserEntityDTO transformToUserEntityDTO(UserEntity userEntity);
-
     ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus);
 
     void saveUserEntity(UserEntity userEntity);

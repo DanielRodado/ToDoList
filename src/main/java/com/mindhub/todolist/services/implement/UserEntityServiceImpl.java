@@ -151,11 +151,6 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public UserEntityDTO transformToUserEntityDTO(UserEntity userEntity) {
-        return new UserEntityDTO(userEntity);
-    }
-
-    @Override
     public ResponseEntity<UserEntityDTO> buildResponseEntity(UserEntityDTO userEntityDTO, HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(userEntityDTO);
     }
