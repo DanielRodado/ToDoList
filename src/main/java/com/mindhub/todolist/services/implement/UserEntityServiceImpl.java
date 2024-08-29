@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.mindhub.todolist.mappers.UserEntityMapper.*;
+
 @Service
 public class UserEntityServiceImpl implements UserEntityService {
 
@@ -72,12 +74,12 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public Set<UserEntityDTO> getAllUserEntityDTO() {
-        return getAllUserEntity().stream().map(UserEntityDTO::new).collect(Collectors.toSet());
+        return userEntitiesToUserEntityDTOs(getAllUserEntity());
     }
 
     @Override
     public UserEntityDTO findUserEntityDTOById(Long id) {
-        return new UserEntityDTO(findUserEntityById(id));
+        return userEntityToUserEntityDTO(findUserEntityById(id));
     }
 
     @Override
@@ -102,9 +104,9 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public ResponseEntity<UserEntityDTO> requestCreateUserEntity(UserEntityApplicationDTO userApp) {
         validateUserEntityApplication(userApp);
-        UserEntity userEntity = buildUserEntityFromDTO(userApp);
+        UserEntity userEntity = userEntityDTOToUserEntity(userApp);
         saveUserEntity(userEntity);
-        return buildResponseEntity(transformToUserEntityDTO(userEntity), HttpStatus.CREATED);
+        return buildResponseEntity(userEntityToUserEntityDTO(userEntity), HttpStatus.CREATED);
     }
 
     @Override
